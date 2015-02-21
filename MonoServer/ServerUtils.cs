@@ -26,6 +26,19 @@ namespace MonoServer
 			_errorStack.Add(Error);
 		}
 
+		public static byte[] ReadFile(string path)
+		{
+			try
+			{
+				return File.ReadAllBytes(path);
+			}
+			catch (Exception e)
+			{
+				ServerUtils.addError(new ServerError { Message = "Could not read file " + path, Time = DateTime.Now, Ex = e });
+				return null;
+			}
+		}
+
 		public static string ReadTextFile(string path)
 	    {
 	        try

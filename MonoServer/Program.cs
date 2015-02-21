@@ -41,6 +41,8 @@ namespace MonoServer
 			Config = ServerUtils.JsonFileToObject<ServerConfiguration>("./config.json");
 			Server = new HttpServer (Config.Address, Config.Port, HandleRequest);
 			Middleware = new List<Func<HttpHeader, HttpResponse, Func<HttpHeader>, HttpHeader>> ();
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.WriteLine ("N3ON Server initialized");
 		}
 
 		[MTAThread]
@@ -49,6 +51,7 @@ namespace MonoServer
 			Initialize ();
 			Router router = new Router ();
 			router.Add("/test/[0-9]+$", Test);
+			router.Add("/test/?$", TestFrontend);
 			Middleware.Add (router.Middleware);
 			Middleware.Add (ServeStatic);
 			Middleware.Add (NotFound404);
@@ -79,6 +82,20 @@ namespace MonoServer
 			return header;
 		}
 
+		public static HttpHeader TestFrontend(HttpHeader header, HttpResponse response) {
+			try {
+				string template = ServerUtils.ReadTextFile ("templates/test.html");
+				Frontend fe = new Frontend ();
+				response.SetHeader("Content-Type", "text/html");
+				response.Send(fe.Compile(template, new { content = "Test", pageTitle = "N3ON Testpage"}));
+				return header;
+			} catch (Exception ex) {
+				response.Send ("Error compiling template:\n" + ex.Message);
+				return header;
+			}
+		}
+
+
 		public static HttpHeader HandleRequest(HttpHeader header, HttpResponse response) 
 		{
 			return RunMiddleware (header, response);
@@ -86,7 +103,7 @@ namespace MonoServer
 
 		public static HttpHeader ServeStatic(HttpHeader header, HttpResponse response, Func<HttpHeader> next) {
 			try {
-				string content = ServerUtils.ReadTextFile (Config.Static + header.Url);
+				byte[] content = ServerUtils.ReadFile (Config.Static + header.Url);
 				string ext = header.Url.Substring(header.Url.LastIndexOf('.'));
 				string mime = MimeType.GetMimeType(ext);
 				response.SetHeader("Content-Type", mime);

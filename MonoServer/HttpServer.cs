@@ -15,11 +15,11 @@ namespace MonoServer
 
 		public HttpServer (string address, int port, Func<HttpHeader, HttpResponse, HttpHeader> onRequest)
 		{
-			this.Address = IPAddress.Parse(address);
-			this.EndPoint = new IPEndPoint (this.Address, port);
-			this.Listener = new TcpListener (this.EndPoint);
-			this.Listener.Start ();
+			this.Address   = IPAddress.Parse(address);
+			this.EndPoint  = new IPEndPoint (this.Address, port);
+			this.Listener  = new TcpListener (this.EndPoint);
 			this.OnRequest = onRequest;
+			this.Listener.Start ();
 		}
 
 		private void Close() 

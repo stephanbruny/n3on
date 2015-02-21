@@ -17,7 +17,7 @@ namespace MonoServer
 			foreach (KeyValuePair<Regex,  Func<HttpHeader, HttpResponse, HttpHeader>> keyValue in this.Routes) {
 				if (keyValue.Key.IsMatch(header.Url)) {
 					// TODO: Context (HttpRequest)
-					keyValue.Value(header, response);
+					return keyValue.Value(header, response);
 				}
 			}
 

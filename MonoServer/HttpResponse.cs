@@ -17,6 +17,7 @@ namespace MonoServer
 			this.Header = new HttpHeader ();
 			this.Encoding = System.Text.Encoding.UTF8;
 			this.EncodingName = "utf-8";
+
 		}
 
 		public void Status(int status, string message) {
@@ -29,6 +30,20 @@ namespace MonoServer
 			this.Header.SetHeaders ("Content-Type", "text/plain; " + "charset=" + this.EncodingName);
 			byte[] response = this.Encoding.GetBytes(HttpHeader.Serialize (this.Header) + message);
 			this.Stream.Write (response, 0, response.Length);
+			this.Stream.Flush();
+		}
+
+		public void Send(byte[] data) 
+		{
+			this.Header.Status (200, "OK");
+			this.Header.SetHeaders ("Content-Length", data.Length.ToString(), true);
+
+			byte[] header = this.Encoding.GetBytes (HttpHeader.Serialize (this.Header));
+			byte[] response = new byte[data.Length + header.Length];
+			System.Buffer.BlockCopy (header, 0, response, 0, header.Length);
+			System.Buffer.BlockCopy (data, 0, response, header.Length, data.Length);
+
+			this.Stream.Write ( response, 0, response.Length);
 			this.Stream.Flush();
 		}
 
