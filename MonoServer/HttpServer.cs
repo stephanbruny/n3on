@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace MonoServer
 {
@@ -53,7 +54,9 @@ namespace MonoServer
 			HttpResponse response = new HttpResponse (stream);
 
 			try {
-				this.OnRequest(requestHeader, response);
+				ThreadPool.QueueUserWorkItem( (object result) => {
+					this.OnRequest(requestHeader, response);
+				});
 			} catch (Exception) {
 				response.Status (500, "Internal Server Error");
 				response.Send ("500 - Internal Server Error");
