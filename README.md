@@ -1,2 +1,2 @@
 # n3on
-.NET-Based simple, asynchronous webserver
+.NET-Based (Mono) simple, asynchronous webserver
