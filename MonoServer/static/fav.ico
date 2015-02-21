@@ -1,0 +1,11 @@
+﻿using System;
+namespace MonoServer
+{
+	public class fav
+	{
+		public fav()
+		{
+		}
+	}
+}
+
