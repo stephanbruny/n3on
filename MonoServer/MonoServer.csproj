@@ -55,6 +55,9 @@
     <Compile Include="HttpRequest.cs" />
     <Compile Include="HttpServer.cs" />
     <Compile Include="Router.cs" />
+    <Compile Include="models\Article.cs" />
+    <Compile Include="IDatabaseProvider.cs" />
+    <Compile Include="MongoDBDatabaseProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -94,10 +97,17 @@
     <Content Include="static\images\neon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="static\fav.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="templates\articles.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="static\" />
     <Folder Include="templates\" />
     <Folder Include="static\images\" />
+    <Folder Include="models\" />
   </ItemGroup>
 </Project>

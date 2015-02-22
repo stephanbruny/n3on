@@ -10,10 +10,16 @@ using Mono.CSharp;
 
 namespace MonoServer
 {
+	class ServerDatabase {
+		public string Host { get; set; }
+		public string Name { get; set; }
+	}
+
 	class ServerConfiguration {
 		public int Port {get; set;}
 		public string Address { get; set; }
 		public string Static {get; set;}
+		public ServerDatabase Database { get; set; } 
 	}
 
 	class ApplicationLocals 
@@ -36,6 +42,8 @@ namespace MonoServer
 
 		public static ApplicationLocals _locals = new ApplicationLocals {AppTitle = "N3ON Server"};
 
+		private static MongoDBDatabaseProvider DatabaseProvider;
+
 		private static void Initialize() 
 		{
 			Config = ServerUtils.JsonFileToObject<ServerConfiguration>("./config.json");
@@ -43,6 +51,20 @@ namespace MonoServer
 			Middleware = new List<Func<HttpHeader, HttpResponse, Func<HttpHeader>, HttpHeader>> ();
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.WriteLine ("N3ON Server initialized");
+
+			Console.ForegroundColor = ConsoleColor.Gray;
+			Console.WriteLine("Trying to connect MongoDB");
+			DatabaseProvider = new MongoDBDatabaseProvider (Config.Database.Host, Config.Database.Name);
+			try {
+				DatabaseProvider.Initialize ();
+				DatabaseProvider.Create<Models.Article> ("articles", Models.Article.New("test2", "Test Article 2", "This is a article for testing purposes.", DateTime.Now));
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.WriteLine("Success.");
+			} catch (Exception ex) {
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine ("Could not initialize database or insert document: " + ex.Message);
+			}
+
 		}
 
 		[MTAThread]
@@ -52,6 +74,7 @@ namespace MonoServer
 			Router router = new Router ();
 			router.Add("/test/[0-9]+$", Test);
 			router.Add("/test/?$", TestFrontend);
+			router.Add("/articles", Articles);
 			Middleware.Add (router.Middleware);
 			Middleware.Add (ServeStatic);
 			Middleware.Add (NotFound404);
@@ -80,6 +103,19 @@ namespace MonoServer
 		public static HttpHeader Test(HttpHeader header, HttpResponse response) {
 			response.Send ("Just a Test. Page is " + header.UrlParts[2]);
 			return header;
+		}
+
+		public static HttpHeader Articles(HttpHeader header, HttpResponse response) {
+			try {
+				string template = ServerUtils.ReadTextFile ("templates/articles.html");
+				Frontend fe = new Frontend ();
+				response.SetHeader("Content-Type", "text/html");
+				response.Send(fe.Compile(template, new { articles = DatabaseProvider.GetAll<Models.Article>("articles") } ));
+				return header;
+			} catch (Exception ex) {
+				response.Send ("Error compiling template:\n" + ex.Message);
+				return header;
+			}
 		}
 
 		public static HttpHeader TestFrontend(HttpHeader header, HttpResponse response) {

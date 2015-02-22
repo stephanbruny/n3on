@@ -1,0 +1,21 @@
+﻿<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Articles</title>
+    <link rel="icon" type="image/png" href="/fav.png" />
+    <!-- weitere Kopfinformationen -->
+    <!-- Kommentare werden im Browser nicht angezeigt. -->
+  </head>
+  <body>
+  	<img src="/images/neon.png" />
+    <h1>Articles</h1>
+    <div id="articles">
+    	{{#each articles}}
+    	<article>
+    		<h2>{{Title}}</h2>
+    		<p>{{Content}}</p>
+    	</article>
+    	{{/each}}
+    </div>
+  </body>
+</html>
