@@ -1,9 +1,0 @@
-﻿{
-	"Address": "127.0.0.1",
-	"Port": "8888",
-	"Static": "./static",
-	"Database": {
-		"Host": "127.0.0.1",
-		"Name": "neondb"
-	}
-}
