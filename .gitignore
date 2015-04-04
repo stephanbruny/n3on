@@ -92,3 +92,15 @@ packages/Newtonsoft.Json.6.0.8/lib/portable-net45+wp80+win8+wpa81+aspnetcore50/N
 packages/Newtonsoft.Json.6.0.8/Newtonsoft.Json.6.0.8.nupkg
 
 packages/Newtonsoft.Json.6.0.8/tools/install.ps1
+
+n3on-server.userprefs
+
+n3on-server/bin/Debug/n3on-server.exe
+
+n3on-server/bin/Debug/n3on-server.exe.mdb
+
+n3on-server/obj/x86/Debug/n3on-server.exe
+
+n3on-server/obj/x86/Debug/n3on-server.exe.mdb
+
+n3on-server/obj/x86/Debug/n3on-server.fsproj.FilesWrittenAbsolute.txt
