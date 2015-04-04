@@ -13,7 +13,7 @@ Using the Mono-(.NET)-Framework to allow platform-independence.
 
 See *Program.fs*
 
-```
+```fsharp
 open System
 open System.Threading
 open System.Collections.Generic
