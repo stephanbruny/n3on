@@ -5,9 +5,9 @@ Using the Mono-(.NET)-Framework to allow platform-independence.
 
 ## Buidling ##
 
-1.) Get the latest Version of Xamarin Studio (www.xamarin.com/studio) (''should also compile with Visual Studio 13'')
-2.) Download the source
-3.) Compile and run
+- 1. Get the latest Version of Xamarin Studio (www.xamarin.com/studio) (''should also compile with Visual Studio 13'')
+- 2. Download the source
+- 3. Compile and run
 
 ## How to use ##
 
