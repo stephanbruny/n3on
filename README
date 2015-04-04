@@ -1,19 +1,19 @@
-= N3ON - Webserver =
+# N3ON - Webserver #
 
 A simple web server utilizing asynchronous and functional methodologies written in F#.
 Using the Mono-(.NET)-Framework to allow platform-independence.
 
-== Buidling ==
+## Buidling ##
 
 1.) Get the latest Version of Xamarin Studio (www.xamarin.com/studio) (''should also compile with Visual Studio 13'')
 2.) Download the source
 3.) Compile and run
 
-== How to use ==
+## How to use ##
 
 See *Program.fs*
 
-{{{
+```
 open System
 open System.Threading
 open System.Collections.Generic
@@ -57,4 +57,4 @@ let main argv =
     while true do
         Thread.Sleep(1000)
     0 // return an integer exit code
-}}}
+```
