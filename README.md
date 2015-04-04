@@ -5,13 +5,20 @@ Using the Mono-(.NET)-Framework to allow platform-independence.
 
 ## Buidling ##
 
-- 1. Get the latest Version of Xamarin Studio (www.xamarin.com/studio) (''should also compile with Visual Studio 13'')
+- 1. Get the latest Version of Xamarin Studio (www.xamarin.com/studio) (*should also compile with Visual Studio 13*)
 - 2. Download the source
 - 3. Compile and run
 
 ## How to use ##
 
-See *Program.fs*
+If you are familiar with Node.js and Express you can already see some analogies between them and this project.
+
+N3ON uses a "middleware"-stack. You add homogenous functions which are then run in series by calling a *next()* function.
+
+These functions may manipulate the request or response object to pass them to the next function in stack, or stop the stack by sending the response to the TCP-Client.
+A middleware might perform content parsing, routing, authentication, etc.
+
+See **Program.fs**
 
 ```fsharp
 open System
